@@ -27,8 +27,6 @@ public class CNXJDBC {
 				e.printStackTrace();
 			}
 		}
-
-		
 		return cnx;
 	}
 
