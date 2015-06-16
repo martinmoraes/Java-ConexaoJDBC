@@ -11,7 +11,7 @@ public class CNXJDBC {
 	private static String usuario = "SA";
 	private static String senha = "";
 	private static String PathBase = "C:\\Users\\Martin\\workspace\\ConectandoDB\\base\\exemplotexte";
-	private static final String URL = "jdbc:hsqldb:file:" + PathBase;
+	private static final String URL = "jdbc:hsqldb:file:" + PathBase + ";shutdown=true;hsqldb.write_delay=false; ";
 
 	public static Connection conectar() {
 		if(cnx == null){
@@ -28,6 +28,15 @@ public class CNXJDBC {
 			}
 		}
 		return cnx;
+	}
+	
+	public static void fecharCNX(){
+		try {
+			cnx.close();
+			cnx = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

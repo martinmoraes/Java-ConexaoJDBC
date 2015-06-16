@@ -12,18 +12,17 @@ import br.arcadia.jdbc.CNXJDBC;
 
 
 public class UsuarioDAO {
-	private final String SQL_INSERE_USUARIO= "INSERT INTO PUBLIC.USUARIOS (NOME, EMAIL ) VALUES ( ?, ?);";
-	private final String SQL_ALTERA_USUARIO= "UPDATE PUBLIC.USUARIOS SET NOME=?, EMAIL=? WHERE ID=?;";
-	private final String SQL_EXCLUI_USUARIO= "DELETE FROM PUBLIC.USUARIOS WHERE ID=?";
-	private final String SQL_SELECIONA_USUARIO= "SELECT * FROM PUBLIC.USUARIOS";
+	private final String SQL_INSERE_USUARIO= "INSERT INTO \"PUBLIC\".\"USUARIOS\"(\"NOME\", \"EMAIL\" ) VALUES ( ?, ?);";
+	private final String SQL_ALTERA_USUARIO= "UPDATE USUARIOS SET NOME=?, EMAIL=? WHERE ID=?;";
+	private final String SQL_EXCLUI_USUARIO= "DELETE FROM USUARIOS WHERE ID=?";
+	private final String SQL_SELECIONA_USUARIO= "SELECT * FROM USUARIOS";
 	
 	
-	private Connection conn = CNXJDBC.conectar();
 	private PreparedStatement pst = null;
 	
 	public ArrayList<Usuario> listarTodosUsuarios(){
 		ArrayList<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
-		
+		Connection conn = CNXJDBC.conectar();
 		Usuario umUsuario;
 		try{
 			pst = conn.prepareStatement(SQL_SELECIONA_USUARIO);
@@ -37,6 +36,7 @@ public class UsuarioDAO {
 			}
 			rs.close();
 			pst.close();
+			CNXJDBC.fecharCNX();
 		}catch (SQLException e){
 			System.out.println("Erro ao executar o Statement"+ e.toString());
 		}
@@ -46,21 +46,23 @@ public class UsuarioDAO {
 	
 	public boolean inserirUsuario(Usuario umUsuario){
 		boolean ret = false;
+		Connection conn = CNXJDBC.conectar();
 		try{
 			pst = conn.prepareStatement(SQL_INSERE_USUARIO);
 			pst.setString(1, umUsuario.getNome());
 			pst.setString(2, umUsuario.getEMail());
 			ret = pst.execute();
 			pst.close();
+			CNXJDBC.fecharCNX();
 		}catch (SQLException e){
 			System.out.println("Erro ao executar o Statment "+e.toString());
 		}
-		
 		return ret;
 	}
 	
 	public boolean alterarUsuario(Usuario umUsuario){
 		boolean ret = false;
+		Connection conn = CNXJDBC.conectar();
 		try{
 			pst = conn.prepareStatement(SQL_ALTERA_USUARIO);
 			pst.setString(1,umUsuario.getNome());
@@ -68,6 +70,7 @@ public class UsuarioDAO {
 			pst.setInt(3, umUsuario.getCodigo());
 			ret = pst.execute();
 			pst.close();
+			CNXJDBC.fecharCNX();
 		}catch (SQLException e){
 			System.out.println("Erro ao executar o Statment "+e.toString());
 		}
@@ -76,11 +79,13 @@ public class UsuarioDAO {
 	
 	public boolean excluiUsuario(Usuario umUsuario){
 		boolean ret = false;
+		Connection conn = CNXJDBC.conectar();
 		try{
 			pst = conn.prepareStatement(SQL_EXCLUI_USUARIO);
 			pst.setInt(1, umUsuario.getCodigo());
 			ret = pst.execute();
 			pst.close();
+			CNXJDBC.fecharCNX();
 		}catch (SQLException e){
 			System.out.println("Erro ao executar o Statment "+e.toString());
 		}

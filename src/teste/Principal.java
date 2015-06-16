@@ -1,19 +1,25 @@
 package teste;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
+import br.arcadia.dao.UsuarioDAO;
+import br.arcadia.entidade.Usuario;
 import br.arcadia.jdbc.CNXJDBC;
 
 public class Principal {
 
 	public static void main(String[] args) {
 		
-		Connection c = CNXJDBC.conectar();
+		UsuarioDAO usrDAO = new UsuarioDAO();
+		Usuario umUsr = new Usuario();
+		umUsr.setNome("TESTE");
+		umUsr.setEMail("teste@tr.tr");
 		
-		if(c==null)
-			System.out.println("Não conectou!!!");
-		else
-			System.out.println("Conectou");
+		usrDAO.inserirUsuario(umUsr);
+		ArrayList<Usuario> listUsuarios = usrDAO.listarTodosUsuarios();
+		for(Usuario umUsuario : listUsuarios)
+			System.out.println(umUsuario.toString());
 	}
 
 }
