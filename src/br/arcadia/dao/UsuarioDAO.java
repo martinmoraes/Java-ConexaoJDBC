@@ -20,6 +20,22 @@ public class UsuarioDAO {
 	
 	private PreparedStatement pst = null;
 	
+	public boolean inserirUsuario(Usuario umUsuario){
+		boolean ret = false;
+		Connection conn = CNXJDBC.conectar();
+		try{
+			pst = conn.prepareStatement(SQL_INSERE_USUARIO);
+			pst.setString(1, umUsuario.getNome());
+			pst.setString(2, umUsuario.getEMail());
+			ret = pst.execute();
+			pst.close();
+			CNXJDBC.fecharCNX();
+		}catch (SQLException e){
+			System.out.println("Erro ao executar o Statment "+e.toString());
+		}
+		return ret;
+	}
+
 	public ArrayList<Usuario> listarTodosUsuarios(){
 		ArrayList<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 		Connection conn = CNXJDBC.conectar();
@@ -43,23 +59,7 @@ public class UsuarioDAO {
 		
 		return listaDeUsuarios;
 	}
-	
-	public boolean inserirUsuario(Usuario umUsuario){
-		boolean ret = false;
-		Connection conn = CNXJDBC.conectar();
-		try{
-			pst = conn.prepareStatement(SQL_INSERE_USUARIO);
-			pst.setString(1, umUsuario.getNome());
-			pst.setString(2, umUsuario.getEMail());
-			ret = pst.execute();
-			pst.close();
-			CNXJDBC.fecharCNX();
-		}catch (SQLException e){
-			System.out.println("Erro ao executar o Statment "+e.toString());
-		}
-		return ret;
-	}
-	
+		
 	public boolean alterarUsuario(Usuario umUsuario){
 		boolean ret = false;
 		Connection conn = CNXJDBC.conectar();
