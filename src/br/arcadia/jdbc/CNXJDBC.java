@@ -6,28 +6,31 @@ import java.sql.SQLException;
 
 public class CNXJDBC {
 
-	private static final String DRIVER_CLASS = "org.hsqldb.jdbcDriver";
+	private final String DRIVER_CLASS = "org.hsqldb.jdbcDriver";
 	private static Connection cnx = null;
 	private static String usuario = "SA";
 	private static String senha = "";
-	private static String PathBase = "C:\\Users\\Martin\\workspace\\ConectandoDB\\base\\exemplotexte";
-	private static final String URL = "jdbc:hsqldb:file:" + PathBase + ";shutdown=true;hsqldb.write_delay=false; ";
+	private static String PathBase = "C:\\Users\\978907\\workspace\\ConexaoJDBC\\base\\exemplotexte";
+	//C:\Users\978907\workspace\ConexaoJDBC\base
+	private static final String URL = "jdbc:hsqldb:file:" + PathBase + ";shutdown=true;";
 
 	public static Connection conectar() {
-		if(cnx == null){
+		/*if(cnx == null){
 			try {
 				Class.forName(DRIVER_CLASS);
-				// Estabelecendo conexão
 				cnx = DriverManager.getConnection(URL, usuario, senha);
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return cnx;
+		return cnx;*/
+		try {
+			return DriverManager.getConnection(URL, usuario, senha);
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
 	}
 	
 	public static void fecharCNX(){

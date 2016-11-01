@@ -1,11 +1,9 @@
 package teste;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 import br.arcadia.dao.UsuarioDAO;
 import br.arcadia.entidade.Usuario;
-import br.arcadia.jdbc.CNXJDBC;
 
 public class Principal {
 
